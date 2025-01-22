@@ -1,12 +1,20 @@
 import { useState, useEffect } from 'react';
-import { Text, View, StyleSheet } from 'react-native';
-import { multiply } from 'react-native-tcard';
+import { Text, View, StyleSheet, Alert } from 'react-native';
+import { multiply, payToPhone } from 'react-native-tcard';
 
 export default function App() {
   const [result, setResult] = useState<number | undefined>();
 
   useEffect(() => {
-    multiply(3, 7).then(setResult);
+    multiply(2, 13).then(setResult);
+
+    payToPhone(100, 'NFC')
+      .then((res) => {
+        Alert.alert('SUCCESS', res);
+      })
+      .catch((e) => {
+        Alert.alert('FAIL', e.toString());
+      });
   }, []);
 
   return (

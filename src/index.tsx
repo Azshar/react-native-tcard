@@ -20,3 +20,7 @@ const Tcard = NativeModules.Tcard
 export function multiply(a: number, b: number): Promise<number> {
   return Tcard.multiply(a, b);
 }
+
+export function payToPhone(a: number, payment_type: 'NFC' | 'QR') {
+  return Tcard.payToPhone(a, payment_type);
+}
