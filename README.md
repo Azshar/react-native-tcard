@@ -12,11 +12,11 @@ npm install react-native-tcard
 
 
 ```js
-import { multiply } from 'react-native-tcard';
+// import { multiply } from 'react-native-tcard';
 
 // ...
 
-const result = await multiply(3, 7);
+// const result = await multiply(3, 7);
 ```
 
 
