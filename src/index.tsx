@@ -44,6 +44,9 @@ export function payToPhone(
   amount: number,
   payment_type: 'NFC' | 'QR' = 'NFC'
 ): Promise<ResultType> {
+  if (Platform.OS === 'ios') {
+    return Promise.reject('OS not supported');
+  }
   return Tcard.payToPhone(amount, payment_type).catch((e: Error) =>
     prepareError(e)
   );
@@ -62,6 +65,9 @@ export function refundPayment(
   transactionId: number,
   mid: number
 ): Promise<ResultType> {
+  if (Platform.OS === 'ios') {
+    return Promise.reject('OS not supported');
+  }
   return Tcard.refundPayment(amount, payment_type, transactionId, mid).catch(
     (e: Error) => prepareError(e)
   );
