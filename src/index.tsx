@@ -61,7 +61,7 @@ export function payToPhone(
  */
 export function refundPayment(
   amount: number,
-  payment_type: 'NFC' | 'QR',
+  payment_type: 'NFC' | 'QR' = 'NFC',
   transactionId: number,
   mid: number
 ): Promise<ResultType> {
@@ -73,15 +73,17 @@ export function refundPayment(
   );
 }
 
-function prepareError(e: Error) {
-  if (e instanceof Error) {
-    try {
-      const message = JSON.parse(e.message);
+function prepareError(e: any) {
+  return Promise.reject(JSON.parse(e));
 
-      return Promise.reject(message);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-  }
-  return Promise.reject(e);
+  // if (e instanceof Error) {
+  //   try {
+  //     const message = JSON.parse(e.message);
+
+  //     return Promise.reject(message);
+  //   } catch (err) {
+  //     return Promise.reject(err);
+  //   }
+  // }
+  // return Promise.reject(e);
 }

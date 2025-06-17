@@ -105,12 +105,12 @@ class TcardModule(reactContext: ReactApplicationContext) :
     val map  = WritableNativeMap()
 
     map.putDouble("amount", softposResult.amount.toDouble())
-    map.putString("paymentMethod", softposResult.paymentMethod.toString())
     map.putDouble("transactionId", softposResult.transactionId.toDouble())
-    map.putBoolean("isRefund", softposResult.isRefund)
-    map.putString("dateTime", softposResult.dateTime)
     map.putDouble("tid", softposResult.tid.toDouble())
     map.putDouble("mid", softposResult.mid.toDouble())
+    map.putString("paymentMethod", softposResult.paymentMethod.toString())
+    map.putString("dateTime", softposResult.dateTime.toString())
+    map.putBoolean("isRefund", softposResult.isRefund)
 
     return map
   }
