@@ -76,11 +76,11 @@ export function refundPayment(
 }
 
 function prepareError(e: any) {
-  Alert.alert('TEST', typeof e);
+  Alert.alert('TEST', e);
 
-  const error: any = JSON.parse(e);
+  const error: any = JSON.parse(JSON.stringify(e));
 
-  return error.message;
+  return error;
 
   // if (e instanceof Error) {
   //   try {
