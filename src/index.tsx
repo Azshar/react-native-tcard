@@ -1,4 +1,4 @@
-import { NativeModules, Platform } from 'react-native';
+import { Alert, NativeModules, Platform } from 'react-native';
 import { type ResultType } from './types';
 
 const LINKING_ERROR =
@@ -76,9 +76,11 @@ export function refundPayment(
 }
 
 function prepareError(e: any) {
+  Alert.alert('TEST', typeof e);
+
   const error: any = JSON.parse(e);
 
-  return error.message.details;
+  return error.message;
 
   // if (e instanceof Error) {
   //   try {
