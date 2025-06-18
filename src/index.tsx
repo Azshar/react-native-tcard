@@ -48,7 +48,7 @@ export function payToPhone(
     return Promise.reject('OS not supported');
   }
   return Tcard.payToPhone(amount, payment_type).catch((e: Error) => {
-    return Promise.reject(e);
+    return Promise.reject(prepareError(e));
   });
 }
 
@@ -69,12 +69,16 @@ export function refundPayment(
     return Promise.reject('OS not supported');
   }
   return Tcard.refundPayment(amount, payment_type, transactionId, mid).catch(
-    (e: Error) => prepareError(e)
+    (e: Error) => {
+      return Promise.reject(prepareError(e));
+    }
   );
 }
 
 function prepareError(e: any) {
-  return JSON.parse(e);
+  const error: any = JSON.parse(e);
+
+  return error.message.details;
 
   // if (e instanceof Error) {
   //   try {

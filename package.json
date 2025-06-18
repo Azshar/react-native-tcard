@@ -1,6 +1,6 @@
 {
   "name": "react-native-tcard",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "Модуль React-Native для работы с приложением Pay to Phone от Т-Банка",
   "source": "./src/index.tsx",
   "main": "./lib/commonjs/index.js",
