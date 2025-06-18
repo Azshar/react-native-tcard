@@ -76,6 +76,7 @@ export function refundPayment(
 }
 
 function prepareError(e: any) {
+  Alert.alert('MAHMUD', 'MAHMUD');
   Alert.alert('TEST', JSON.parse(e));
 
   const error: any = JSON.parse(JSON.stringify(e));
