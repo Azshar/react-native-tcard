@@ -75,19 +75,15 @@ export function refundPayment(
   );
 }
 
-function prepareError(e: any) {
-  // const error: any = JSON.parse(JSON.stringify(e));
+function prepareError(e: Error) {
+  if (e instanceof Error) {
+    try {
+      const message = JSON.parse(e.message);
 
-  return JSON.parse(e);
-
-  // if (e instanceof Error) {
-  //   try {
-  //     const message = JSON.parse(e.message);
-
-  //     return Promise.reject(message);
-  //   } catch (err) {
-  //     return Promise.reject(err);
-  //   }
-  // }
-  // return Promise.reject(e);
+      return message;
+    } catch (err) {
+      return err;
+    }
+  }
+  return e;
 }
