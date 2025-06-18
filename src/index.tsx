@@ -48,7 +48,7 @@ export function payToPhone(
     return Promise.reject('OS not supported');
   }
   return Tcard.payToPhone(amount, payment_type).catch((e: Error) => {
-    return Promise.reject(prepareError(e));
+    return Promise.reject(e);
   });
 }
 
