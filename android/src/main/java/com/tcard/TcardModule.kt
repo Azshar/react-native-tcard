@@ -58,12 +58,12 @@ class TcardModule(reactContext: ReactApplicationContext) :
           }
 
           override fun onError(e: Throwable) {
-            promise.reject(prepareError(e))
+            promise.reject("Create Event Error", prepareError(e))
           }
         }
       )
     } catch (e: Throwable) {
-      promise.reject(prepareError(e))
+      promise.reject("Create Event Error", prepareError(e))
     }
   }
 
@@ -94,12 +94,12 @@ class TcardModule(reactContext: ReactApplicationContext) :
           }
 
           override fun onError(e: Throwable) {
-            promise.reject(prepareError(e))
+            promise.reject("Create Event Error", prepareError(e))
           }
         }
       )
     } catch (e: Throwable) {
-      promise.reject(prepareError(e))
+      promise.reject("Create Event Error", prepareError(e))
     }
   }
 
