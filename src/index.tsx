@@ -1,4 +1,4 @@
-import { NativeModules, Platform } from 'react-native';
+import { Alert, NativeModules, Platform } from 'react-native';
 import { type ResultType } from './types';
 
 const LINKING_ERROR =
@@ -47,9 +47,21 @@ export function payToPhone(
   if (Platform.OS === 'ios') {
     return Promise.reject('OS not supported');
   }
-  return Tcard.payToPhone(amount, payment_type).catch((e: Error) =>
-    prepareError(e)
-  );
+  return Tcard.payToPhone(amount, payment_type)
+    .then((data: any) => {
+      console.log('TEST');
+      console.log(data);
+      console.log('TEST');
+    })
+    .catch((e: Error) => {
+      Alert.alert('Test', JSON.stringify(e));
+
+      console.log('TEST');
+      console.log(e);
+      console.log('TEST');
+
+      return Promise.reject(prepareError(e));
+    });
 }
 
 /**

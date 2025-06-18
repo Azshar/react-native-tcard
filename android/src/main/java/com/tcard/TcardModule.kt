@@ -16,6 +16,8 @@ import ru.tbank.posterminal.p2psdk.RefundTransactionData
 import ru.tbank.posterminal.p2psdk.SoftposException
 import ru.tbank.posterminal.p2psdk.TLogger
 
+val ERRORS = mapOf("Failed to bind to Pay to phone" to "Pay To Phone не установлен на Вашем устройстве")
+
 class TcardModule(reactContext: ReactApplicationContext) :
   ReactContextBaseJavaModule(reactContext) {
 
@@ -118,8 +120,15 @@ class TcardModule(reactContext: ReactApplicationContext) :
   fun prepareError(error: Throwable): String {
     val map  = WritableNativeMap()
 
-    map.putInt("code", 0)
+    map.putInt("code", -1)
     map.putString("details", error.message.toString())
+
+    for ((err, mess) in ERRORS) {
+      if (err in error.message.toString()) {
+        map.putInt("code", -2)
+        map.putString("details", mess)
+      }
+    }
 
     if (error is SoftposException) {
       map.putInt("code", error.code)
