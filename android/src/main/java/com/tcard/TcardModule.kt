@@ -31,14 +31,17 @@ class TcardModule(reactContext: ReactApplicationContext) :
       TCardSingleton.getInstance()?.initLogger(object : TLogger {
         override fun logDebug(tag: String?, message: String) {
           Log.d(tag, message)
+          sendLogToJS(tag, message)
         }
 
         override fun logInfo(tag: String?, message: String) {
           Log.i(tag, message)
+          sendLogToJS(tag, message)
         }
 
         override fun logError(tag: String?, message: String?, throwable: Throwable?) {
           Log.e(tag, message, throwable)
+          sendLogToJS(tag, message)
         }
       })
 
@@ -136,6 +139,12 @@ class TcardModule(reactContext: ReactApplicationContext) :
     }
 
     return map.toString()
+  }
+
+  private fun sendLogToJS(tag: String, message: String) {
+    reactApplicationContext
+      .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter::class.java)
+      .emit(tag, message)
   }
 
   companion object {

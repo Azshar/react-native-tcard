@@ -1,4 +1,4 @@
-import { NativeModules, Platform } from 'react-native';
+import { NativeEventEmitter, NativeModules, Platform } from 'react-native';
 import { type ResultType } from './types';
 
 const LINKING_ERROR =
@@ -17,6 +17,8 @@ const Tcard = NativeModules.Tcard
         },
       }
     );
+
+export const logger = new NativeEventEmitter(NativeModules.Tcard);
 
 /**
  * @typedef ResultType
