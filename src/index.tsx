@@ -18,6 +18,12 @@ const Tcard = NativeModules.Tcard
       }
     );
 
+export type TLoggerEvent = {
+  tag: string;
+  message: string;
+  throwable: string;
+};
+
 export const logger = new NativeEventEmitter(NativeModules.Tcard);
 
 /**

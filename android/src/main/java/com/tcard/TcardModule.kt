@@ -7,6 +7,7 @@ import com.facebook.react.bridge.ReactMethod
 import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.WritableMap
 import com.facebook.react.bridge.WritableNativeMap
+import com.facebook.react.modules.core.DeviceEventManagerModule
 import ru.tbank.posterminal.p2psdk.Callback
 import ru.tbank.posterminal.p2psdk.PaymentMethod
 import ru.tbank.posterminal.p2psdk.PaymentTransactionData
@@ -41,7 +42,7 @@ class TcardModule(reactContext: ReactApplicationContext) :
 
         override fun logError(tag: String?, message: String?, throwable: Throwable?) {
           Log.e(tag, message, throwable)
-          sendLogToJS(tag, message)
+          sendLogToJS(tag, message, throwable)
         }
       })
 
@@ -141,10 +142,16 @@ class TcardModule(reactContext: ReactApplicationContext) :
     return map.toString()
   }
 
-  private fun sendLogToJS(tag: String, message: String) {
+  private fun sendLogToJS(tag: String?, message: String?, throwable: Throwable? = null) {
+    val map  = WritableNativeMap()
+
+    map.putString("tag", tag)
+    map.putString("message", message)
+    map.putString("throwable", throwable.toString())
+
     reactApplicationContext
       .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter::class.java)
-      .emit(tag, message)
+      .emit("LogNativeEvent", map)
   }
 
   companion object {
