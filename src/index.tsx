@@ -48,7 +48,7 @@ export const logger = new NativeEventEmitter(NativeModules.Tcard);
  * @param {NFC | QR} payment_type - тип оплаты.
  * @returns {Promise<ResultType | ErrorType>}
  */
-export function payToPhone(
+export async function payToPhone(
   amount: number,
   payment_type: 'NFC' | 'QR' = 'NFC'
 ): Promise<ResultType> {
@@ -67,7 +67,7 @@ export function payToPhone(
  * @param {number} mid - Идентификатор торговой точки.
  * @returns {Promise<ResultType | ErrorType>}
  */
-export function refundPayment(
+export async function refundPayment(
   amount: number,
   payment_type: 'NFC' | 'QR' = 'NFC',
   transactionId: number,
