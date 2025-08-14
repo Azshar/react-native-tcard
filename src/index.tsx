@@ -19,9 +19,9 @@ const Tcard = NativeModules.Tcard
     );
 
 export type TLoggerEvent = {
-  tag: string;
-  message: string;
-  throwable: string;
+  tag: string | null;
+  message: string | null;
+  throwable: string | null;
 };
 
 export const logger = new NativeEventEmitter(NativeModules.Tcard);
