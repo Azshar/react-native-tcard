@@ -1,5 +1,5 @@
 import { NativeEventEmitter, NativeModules, Platform } from 'react-native';
-import { type ResultType } from './types';
+import type { ResultType, ErrorType } from './types';
 
 const LINKING_ERROR =
   `The package 'react-native-tcard' doesn't seem to be linked. Make sure: \n\n` +
@@ -83,7 +83,7 @@ export async function refundPayment(
   );
 }
 
-function prepareError(e: Error) {
+function prepareError(e: Error | ErrorType) {
   if (e instanceof Error) {
     try {
       const message = JSON.parse(e.message);
