@@ -49,6 +49,18 @@ export const logger = new NativeEventEmitter(NativeModules.Tcard);
  */
 
 /**
+ * @returns {Promise<boolean | ErrorType>}
+ */
+export async function initialize(): Promise<boolean | ErrorType> {
+  if (Platform.OS === 'ios') {
+    return Promise.reject('OS not supported');
+  }
+  return Tcard.initialize().catch((e: Error) => {
+    return Promise.reject(prepareError(e));
+  });
+}
+
+/**
  * @param {number} amount - целочисленная сумма в копейках (50000 = 500 руб. 00 коп.).
  * @param {NFC | QR} payment_type - тип оплаты.
  * @returns {Promise<ResultType | ErrorType>}
@@ -60,28 +72,9 @@ export async function payToPhone(
   if (Platform.OS === 'ios') {
     return Promise.reject('OS not supported');
   }
-  return Tcard.payToPhone(amount, payment_type)
-    .then(() => {
-      Alert.alert('PayToPhone');
-    })
-    .catch((e: Error) => {
-      Alert.alert('payToPhone', JSON.stringify(e));
-      return Promise.reject(prepareError(e));
-    });
-}
-
-export async function initialize() {
-  if (Platform.OS === 'ios') {
-    return Promise.reject('OS not supported');
-  }
-  return Tcard.initialize()
-    .then(() => {
-      Alert.alert('Init');
-    })
-    .catch((e: Error) => {
-      Alert.alert('init', JSON.stringify(e));
-      return Promise.reject(prepareError(e));
-    });
+  return Tcard.payToPhone(amount, payment_type).catch((e: Error) => {
+    return Promise.reject(prepareError(e));
+  });
 }
 
 /**
@@ -106,6 +99,16 @@ export async function refundPayment(
       return Promise.reject(prepareError(e));
     }
   );
+}
+
+/**
+ * @returns {Promise<boolean | ErrorType>}
+ */
+export async function unbind(): Promise<boolean | ErrorType> {
+  if (Platform.OS === 'ios') {
+    return Promise.reject('OS not supported');
+  }
+  return Tcard.unbind();
 }
 
 function prepareError(e: Error | ErrorType) {

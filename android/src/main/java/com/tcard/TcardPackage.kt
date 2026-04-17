@@ -11,10 +11,9 @@ class TcardPackage : ReactPackage {
         reactContext: ReactApplicationContext
     ): MutableList<ViewManager<View, *>> = mutableListOf()
 
-    override fun getModule(name: String, reactContext: ReactApplicationContext): NativeModule? {
-        return when (name) {
-            TcardModule.NAME -> TcardModule(reactContext)
-            else -> null
-        }
+    override fun createNativeModules(
+        reactContext: ReactApplicationContext
+    ): MutableList<NativeModule> {
+        return mutableListOf(TcardModule(reactContext))
     }
 }
