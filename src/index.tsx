@@ -60,6 +60,15 @@ export async function payToPhone(
   });
 }
 
+export async function initialize() {
+  if (Platform.OS === 'ios') {
+    return Promise.reject('OS not supported');
+  }
+  return Tcard.initialize().catch((e: Error) => {
+    return Promise.reject(prepareError(e));
+  });
+}
+
 /**
  * @param {number} amount - целочисленная сумма в копейках (50000 = 500 руб. 00 коп.).
  * @param {NFC | QR} payment_type - тип оплаты.
