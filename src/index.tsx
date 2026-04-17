@@ -60,20 +60,28 @@ export async function payToPhone(
   if (Platform.OS === 'ios') {
     return Promise.reject('OS not supported');
   }
-  return Tcard.payToPhone(amount, payment_type).catch((e: Error) => {
-    Alert.alert('payToPhone', JSON.stringify(e));
-    return Promise.reject(prepareError(e));
-  });
+  return Tcard.payToPhone(amount, payment_type)
+    .then(() => {
+      Alert.alert('PayToPhone');
+    })
+    .catch((e: Error) => {
+      Alert.alert('payToPhone', JSON.stringify(e));
+      return Promise.reject(prepareError(e));
+    });
 }
 
 export async function initialize() {
   if (Platform.OS === 'ios') {
     return Promise.reject('OS not supported');
   }
-  return Tcard.initialize().catch((e: Error) => {
-    Alert.alert('init', JSON.stringify(e));
-    return Promise.reject(prepareError(e));
-  });
+  return Tcard.initialize()
+    .then(() => {
+      Alert.alert('Init');
+    })
+    .catch((e: Error) => {
+      Alert.alert('init', JSON.stringify(e));
+      return Promise.reject(prepareError(e));
+    });
 }
 
 /**
