@@ -1,4 +1,9 @@
-import { NativeEventEmitter, NativeModules, Platform } from 'react-native';
+import {
+  Alert,
+  NativeEventEmitter,
+  NativeModules,
+  Platform,
+} from 'react-native';
 import type { ResultType, ErrorType } from './types';
 
 const LINKING_ERROR =
@@ -56,6 +61,7 @@ export async function payToPhone(
     return Promise.reject('OS not supported');
   }
   return Tcard.payToPhone(amount, payment_type).catch((e: Error) => {
+    Alert.alert('payToPhone', JSON.stringify(e));
     return Promise.reject(prepareError(e));
   });
 }
@@ -65,6 +71,7 @@ export async function initialize() {
     return Promise.reject('OS not supported');
   }
   return Tcard.initialize().catch((e: Error) => {
+    Alert.alert('init', JSON.stringify(e));
     return Promise.reject(prepareError(e));
   });
 }
@@ -87,6 +94,7 @@ export async function refundPayment(
   }
   return Tcard.refundPayment(amount, payment_type, transactionId, mid).catch(
     (e: Error) => {
+      Alert.alert('refund', JSON.stringify(e));
       return Promise.reject(prepareError(e));
     }
   );
