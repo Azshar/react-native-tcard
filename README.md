@@ -1,42 +1,14 @@
 # react-native-tcard
 
-Модуль React-Native для работы с приложение "Pay to Phone" от Т-Банка.
+Модуль React-Native для работы с приложение "[Pay to Phone](https://www.rustore.ru/catalog/app/ru.tinkoff.posterminal)" от Т-Банка. Информация о [SDK](https://developer.tbank.ru/docs/sdk/paytophone)
 
-## Installation
+## Установка
 
 ```sh
 npm install react-native-tcard
 ```
 
-## Android integration
-**Необходимо импортировать пакеты в MainActivity.kt**
-
-```sh
-...
-import com.tcard.TCardSingleton
-import ru.tbank.posterminal.p2psdk.TSoftposManager
-
-class MainActivity : ReactActivity() {
-    private val tSoftposManager by lazy { TSoftposManager(applicationContext) }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(null)
-
-        TCardSingleton.INSTANCE = tSoftposManager
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        TCardSingleton.INSTANCE = null
-
-        if (!tSoftposManager.isTransactionInProgress) {
-            tSoftposManager.unbindSoftpos()
-        }
-    }
-}
-```
-
-## Usage
+## Использование
 ```ts
 import React, {FC, useEffect, useState} from 'react';
 import {Text, TouchableOpacity} from 'react-native';
@@ -57,7 +29,7 @@ const Component: FC = () => {
     return () => {
       subscription.remove();
     };
-  });
+  }, []);
 
   const refund = async () => {
     await refundPayment(
@@ -70,7 +42,14 @@ const Component: FC = () => {
 
   const payToPhone = async () => {
     try {
-      const payment = await payToPhone(sum);
+        await initialize();
+
+        const payment = await payToPhone(parseInt((card * 100).toFixed(0), 10));
+
+        setTimeout(async () => {
+            await API.sendPayment();
+            await unbind();
+        }, 500);
     } catch (e: any) {
       let error = '';
 
@@ -97,6 +76,12 @@ const Component: FC = () => {
 };
 ```
 
-## License
+## Комментарии
+
+- initialize(); - метод инициализации пакета, обязателен перед попыткой оплаты/возврата. Можно перенести в useEffect, в котором обязательно необходимо вернуть unbind();
+- unbind(); - метод отвязки пакета от активити. Обязательно использовать после оплаты/возврата, либо вернуть в useEffect.
+- setTimeout - необходимо использовать, если хотите отправить информацию на сервер. На некоторых устройствах во время возврата в RN, отрубается интернет. Этому может помочь отключение "Режима энергосбережения", но не в 100% случаях. 
+
+## Лицензия
 
 MIT
